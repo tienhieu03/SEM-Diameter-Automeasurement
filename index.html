@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Measurement For SEM EDX | Geometric Computer Vision Demo</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+  <!-- Google Fonts: Hand-drawn Sketch & Technical Monospace -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Caveat:wght@600;700&family=Fira+Code:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <!-- Custom Sketch Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- STICKY SKETCH NAVIGATION BAR -->
+  <header class="sketch-nav">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <span class="nav-logo-icon" style="font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem;">SEM</span>
+        <span>Automation</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#overview" class="active">Tổng quan</a></li>
+        <li><a href="#visual-proof">Minh chứng</a></li>
+        <li><a href="#simulator">Mô phỏng đo</a></li>
+        <li><a href="#workflow">Quy trình</a></li>
+        <li><a href="#algorithm">Thuật toán</a></li>
+        <li><a href="#reliability">Độ tin cậy</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="container">
+
+    <!-- HERO SECTION -->
+    <section id="overview" class="hero-section">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-tag font-mono">
+            RULE-BASED COMPUTER VISION | SEM EDX METROLOGY
+          </div>
+          <h1 class="hero-title">
+            Hệ Thống <span class="title-accent">Đo Tự Động</span><br>
+            Đường Kính Lỗ SEM EDX
+          </h1>
+          <p class="hero-subtitle">
+            Giải pháp thị giác máy tính hình học đo tự động vi cấu trúc rãnh trên ảnh SEM: Tự nhận diện biên vách, tự bắt 4 góc mép, vẽ vạch đo Top/Bot và tính %Taper trong &lt; 0.2s/ảnh.
+          </p>
+
+          <div class="hero-badges-row">
+            <span class="sketch-badge yellow">&lt; 0.2s / Ảnh</span>
+            <span class="sketch-badge blue">32 Luồng song song</span>
+            <span class="sketch-badge purple">Thuật toán 3 Lớp</span>
+          </div>
+
+          <div class="hero-cta-group">
+            <a href="#simulator" class="sketch-btn btn-scan-trigger">
+              <span>Mô Phỏng Đo Tự Động</span>
+            </a>
+            <a href="#visual-proof" class="sketch-btn">
+              <span>Xem Minh Chứng Ảnh</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- HERO SKETCH BOARD -->
+        <div class="hero-sketch-showcase">
+          <div class="hero-sketch-board has-tape">
+            <div class="font-hand" style="font-size: 1.35rem; font-weight: 700; margin-bottom: 8px; color: var(--ink-primary);">
+              Hiệu Năng Đo Tự Động Vượt Trội
+            </div>
+            <p style="font-size: 0.95rem; color: var(--ink-secondary); margin-bottom: 14px;">
+              Tự động hóa hoàn toàn quy trình chấm điểm thủ công 3-5 phút/ảnh:
+            </p>
+
+            <div class="hero-stats-grid">
+              <div class="stat-item">
+                <div class="stat-num">&lt; 0.2s</div>
+                <div class="stat-label">Thời gian đo tự động</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Tự động bắt 4 góc mép</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-num">32 Luồng</div>
+                <div class="stat-label">Quét song song hàng loạt</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-num">0 Lỗi</div>
+                <div class="stat-label">Tự động lập bảng Excel</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: THE TWO CORE DEMO IMAGES (VISUAL PROOF) -->
+    <section id="visual-proof" class="section-title-wrap" style="padding-top: 50px;">
+      <div class="section-label">MINH CHỨNG THỰC TẾ</div>
+      <h2 class="section-title">Minh Chứng Kết Quả Đo SEM</h2>
+      <p class="section-desc">
+        Đo tự động hàng loạt kết hợp bộ công cụ đo thủ công kiểm định chất lượng.
+      </p>
+    </section>
+
+    <div class="demo-images-grid">
+      
+      <!-- IMAGE 1: Example.png - PRIMARY -->
+      <div class="image-showcase-card has-tape has-tape-left" style="border: 3px solid #ef4444;">
+        <div class="image-showcase-header">
+          <div class="image-badge-title">
+            <span>Kết Quả Đo Tự Động</span>
+          </div>
+          <span class="font-mono" style="font-size: 0.8rem; color: var(--ink-muted);">Example.png</span>
+        </div>
+
+        <div class="image-frame" data-title="Mô hình hình học & Kết quả đo tự động (Example.png)">
+          <img src="assets/Example.png" alt="Mô hình sketch khe rãnh và đường đo kích thước">
+          <div class="image-overlay-caption">Phóng to ảnh</div>
+        </div>
+
+        <div class="image-explanation">
+          <p>
+            Thuật toán tự động nhận diện biên vách, bắt 4 góc mép P1, P2, P3, P4, vẽ đường đo Top/Bot và tính %Taper:
+          </p>
+          <ul class="image-key-points">
+            <li>
+              <span><strong>Phân đoạn vách:</strong> Tách khối vật chất và lọc sạch nhiễu.</span>
+            </li>
+            <li>
+              <span><strong>Bắt 4 điểm biên:</strong> Định vị P1, P2, P3, P4 trong vài mili-giây.</span>
+            </li>
+            <li>
+              <span><strong>Khử Substrate:</strong> Khóa 100% vùng chân đế, chống đo nhầm.</span>
+            </li>
+            <li>
+              <span><strong>Tính %Taper & Excel:</strong> Tự ghi kích thước lên ảnh và xuất file Excel.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- IMAGE 2: Demo Đo thủ công.png - AUXILIARY -->
+      <div class="image-showcase-card has-tape has-tape-right" style="border: 2px dashed #64748b; background: #fafaf9;">
+        <div class="image-showcase-header">
+          <div class="image-badge-title">
+            <span>Bộ Công Cụ Đo Thủ Công</span>
+          </div>
+          <span class="font-mono" style="font-size: 0.8rem; color: var(--ink-muted);">Demo Đo thủ công.png</span>
+        </div>
+
+        <div class="image-frame" data-title="Giao diện công cụ Đo Thủ Công SEM EDX với Zoom & Pan (Demo Đo thủ công.png)">
+          <img src="assets/manual_demo.png" onerror="this.onerror=null; this.src='assets/Demo Đo thủ công.png';" alt="Giao diện phần mềm Đo Thủ Công SEM EDX">
+          <div class="image-overlay-caption">Phóng to ảnh</div>
+        </div>
+
+        <div class="image-explanation">
+          <p>
+            Mô-đun kiểm định dành cho kỹ sư QA/QC khi cần soi chi tiết các mẫu đặc thù:
+          </p>
+          <ul class="image-key-points">
+            <li>
+              <span><strong>Zoom & Pan 2000%:</strong> Phóng to chi tiết góc rãnh, rê chuột mượt mà.</span>
+            </li>
+            <li>
+              <span><strong>Pixel Inspector:</strong> Soi tức thời tọa độ (X, Y) và mức xám Grayscale.</span>
+            </li>
+            <li>
+              <span><strong>Chấm điểm 4 bước:</strong> Click 4 điểm để kiểm tra hoặc ghi đè kết quả.</span>
+            </li>
+            <li>
+              <span><strong>Đồng bộ Excel:</strong> Cập nhật kết quả thẩm định vào file Excel.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 2: LIVE INTERACTIVE SKETCH METROLOGY SIMULATOR -->
+    <section id="simulator" style="padding-top: 40px;">
+      <div class="section-title-wrap">
+        <div class="section-label">LIVE LAB</div>
+        <h2 class="section-title">Mô Phỏng Đo Tự Động Thời Gian Thực</h2>
+        <p class="section-desc">
+          Bấm nút <strong>Bấm Đo Tự Động</strong> để quét ảnh, bắt 4 điểm và đo kích thước trong <strong>&lt; 15ms</strong>.
+        </p>
+      </div>
+
+      <!-- Mode Switcher Tabs -->
+      <div class="mode-switcher-container">
+        <button id="tabModeAuto" class="mode-tab-btn active primary-mode">
+          Đo Tự Động
+        </button>
+        <button id="tabModeManual" class="mode-tab-btn">
+          Đo Thủ Công
+        </button>
+      </div>
+
+      <!-- Live Telemetry Strip -->
+      <div id="autoTelemetry" style="text-align: center; margin-bottom: 16px; font-family: var(--font-mono); font-size: 0.9rem; color: #065f46;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:8px;">
+          <span class="live-pulse-dot"></span>
+          <strong>LÕI ĐO TỰ ĐỘNG SẴN SÀNG</strong> | 12.4 ms/ảnh | 32 Luồng song song
+        </div>
+      </div>
+
+      <!-- Manual Step Banner (Hidden by default, shown only in manual mode) -->
+      <div id="manualStepBanner" class="sticky-note blue" style="display:none; margin-bottom: 16px; text-align:center; font-size:1.15rem; font-weight:bold;">
+        Bước 1 (Chế độ phụ): Click chuột vào ảnh để chọn Điểm P1 (Đỉnh mép trái)
+      </div>
+
+      <div class="simulator-container has-tape">
+        <div class="simulator-grid">
+          
+          <!-- Interactive HTML5 Canvas -->
+          <div>
+            <div class="canvas-wrapper">
+              <canvas id="metrologyCanvas"></canvas>
+              
+              <div class="canvas-controls-overlay">
+                <button id="btnTriggerAutoScan" class="sketch-btn btn-scan-trigger" style="font-size: 1rem; padding: 6px 14px;">
+                  Bấm Đo Tự Động (Auto Scan)
+                </button>
+                <button id="btnResetCanvas" class="sketch-btn" style="padding: 4px 10px; font-size: 0.85rem; background: #ffffff;">
+                  Reset Vách
+                </button>
+              </div>
+
+              <div class="canvas-hint-overlay">
+                <span><strong>Mô phỏng:</strong> Ảnh gốc ban đầu chưa có vạch đo. Bấm <strong>Bấm Đo Tự Động</strong> để thuật toán bắt điểm & vẽ kích thước.</span>
+                <span class="font-mono" style="font-size: 0.85rem;">Ready</span>
+              </div>
+            </div>
+
+            <!-- Auto-Measurement Step Timeline -->
+            <div class="auto-step-timeline">
+              <span id="stepBinarize" class="timeline-step-badge">1. Nhị phân hóa (120)</span>
+              <span id="stepSubstrate" class="timeline-step-badge">2. Khử Substrate 75%</span>
+              <span id="stepLayer1" class="timeline-step-badge">3. Lớp 1 Điểm hướng</span>
+              <span id="stepLayer2" class="timeline-step-badge">4. Lớp 2 Dò 360°</span>
+              <span id="stepResult" class="timeline-step-badge">5. Lớp 3 Xuất kết quả</span>
+            </div>
+
+            <!-- Validation Status Pill -->
+            <div id="statusPill" class="validation-pill warning" style="margin-top: 10px;">
+              Ảnh gốc chưa đo: Bấm nút "Bấm Đo Tự Động" để bắt 4 điểm và vẽ kết quả.
+            </div>
+          </div>
+
+          <!-- Controls & Dynamic Readout Board -->
+          <div class="simulator-panel">
+            
+            <!-- Preset selector -->
+            <div class="control-group">
+              <label class="control-label">
+                <span>Chọn kịch bản rãnh SEM mẫu:</span>
+              </label>
+              <div class="preset-buttons">
+                <button class="preset-btn active" data-preset="standard">Tiêu chuẩn</button>
+                <button class="preset-btn" data-preset="hightaper">Độ vát cao (%Taper)</button>
+                <button class="preset-btn" data-preset="fractured">Vách đứt đoạn</button>
+              </div>
+            </div>
+
+            <!-- Threshold Slider -->
+            <div class="control-group">
+              <div class="control-label">
+                <span>Ngưỡng nhị phân (Threshold):</span>
+                <span id="threshValBadge" class="value-badge">120</span>
+              </div>
+              <input type="range" id="sliderThresh" class="sketch-slider" min="10" max="240" value="120">
+            </div>
+
+            <!-- Pixel Ratio Slider -->
+            <div class="control-group">
+              <div class="control-label">
+                <span>Tỷ lệ phần cứng (PixelSize):</span>
+                <span id="ratioValBadge" class="value-badge">158.75 nm/px</span>
+              </div>
+              <input type="range" id="sliderRatio" class="sketch-slider" min="50" max="300" step="0.25" value="158.75">
+            </div>
+
+            <!-- Auto-Correction Checkbox -->
+            <div class="control-group" style="flex-direction: row; align-items: center; justify-content: space-between; padding: 6px 0;">
+              <span class="control-label" style="font-size: 1rem;">Lớp 3 Cân bằng Y & Khóa góc ≤ 35°:</span>
+              <input type="checkbox" id="chkAutoCorrect" checked style="width: 20px; height: 20px; accent-color: var(--sketch-red); cursor: pointer;">
+            </div>
+
+            <!-- Live Calculation Metrics Board -->
+            <div class="results-card">
+              <div class="results-card-title">
+                <span>KẾT QUẢ ĐO</span>
+                <span class="sketch-badge yellow" style="font-size: 0.8rem; padding: 2px 8px;">Chờ Đo</span>
+              </div>
+
+              <div class="metric-row">
+                <span class="metric-name">Miệng (Top):</span>
+                <span class="metric-val top-color"><span id="valTopPx">-- px</span> (<span id="valTopUm">-- µm</span>)</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-name">Đáy (Bot):</span>
+                <span class="metric-val bot-color"><span id="valBotPx">-- px</span> (<span id="valBotUm">-- µm</span>)</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-name">Độ vát (%Taper):</span>
+                <span id="valTaper" class="metric-val taper-color">-- %</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-name">Góc Top / Bot:</span>
+                <span class="metric-val font-mono" style="font-size: 0.95rem;"><span id="valTiltTop">--°</span> / <span id="valTiltBot">--°</span></span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: COMPLETE WORKFLOW (SKETCH FLOWCHART PIPELINE) -->
+    <section id="workflow" class="workflow-section">
+      <div class="section-title-wrap">
+        <div class="section-label">END-TO-END PIPELINE</div>
+        <h2 class="section-title">Quy Trình Hoạt Động Của Hệ Thống (Workflow)</h2>
+        <p class="section-desc">
+          Chu trình 8 bước khép kín từ nhận diện thư mục sản xuất, xử lý quang học đa luồng đến tự động lập bảng báo cáo Excel.
+        </p>
+      </div>
+
+      <div class="pipeline-steps-grid">
+        
+        <!-- Step 1 -->
+        <div class="pipeline-step-card">
+          <div class="step-num-badge">1</div>
+          <div class="step-header">
+            <h3 class="step-title">Phân Tích Tên Thư Mục</h3>
+          </div>
+          <p class="step-desc">
+            Phân giải chuỗi thư mục đầu vào theo quy chuẩn: <code>&lt;ITEM&gt;_&lt;LOT&gt;_&lt;WORKER&gt;_&lt;MACHINE&gt;_&lt;STAGE&gt;</code>. Tự động nhận biết số máy (dấu <code>+</code>) để chọn mẫu báo cáo 1 máy đến 4 máy.
+          </p>
+          <div class="step-code-preview">parse_folder_name(name)</div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="pipeline-step-card">
+          <div class="step-num-badge">2</div>
+          <div class="step-header">
+            <h3 class="step-title">Đọc Tỷ Lệ PixelSize</h3>
+          </div>
+          <p class="step-desc">
+            Trích xuất trực tiếp thông số <code>PixelSize</code> (nm) từ file cấu hình <code>.txt</code> phần cứng của máy SEM (hỗ trợ utf-8, utf-16, cp1252), quy đổi sang <code>µm/px = PixelSize / 1000.0</code>.
+          </p>
+          <div class="step-code-preview">get_pixel_ratio(txt_path)</div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="pipeline-step-card">
+          <div class="step-num-badge">3</div>
+          <div class="step-header">
+            <h3 class="step-title">Nhị Phân Hóa Mức Xám</h3>
+          </div>
+          <p class="step-desc">
+            Chuyển ảnh sang mức xám Grayscale và áp dụng ngưỡng phân tách <code>Threshold = 120</code>. Tách biệt vật chất thành vách (đen = 0) và nền khoảng trống lòng rãnh (trắng = 255).
+          </p>
+          <div class="step-code-preview">cv2.threshold(gray, 120, 255)</div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="pipeline-step-card">
+          <div class="step-num-badge">4</div>
+          <div class="step-header">
+            <h3 class="step-title">Khử Khối Chân Đế Y ≥ 75%</h3>
+          </div>
+          <p class="step-desc">
+            Áp dụng <strong>Quy tắc chia trục Y làm 4 phần</strong>: Xóa 100% pixel đen ở khoảng Y ≥ 0.75H và lọc pixel nối từ đáy lên. Triệt tiêu hoàn toàn nguy cơ đo nhầm xuống chân substrate hoặc thanh banner.
+          </p>
+          <div class="step-code-preview">filter_bottom_connected()</div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="pipeline-step-card">
+          <div class="step-num-badge">5</div>
+          <div class="step-header">
+            <h3 class="step-title">Lọc Bụi & Nối Vách Nứt</h3>
+          </div>
+          <p class="step-desc">
+            Thuật toán đệ quy liên thông: Xóa bỏ các vết bẩn đen cô lập giữa lòng rãnh; đồng thời quét khoảng cách 12 px để bắc cầu (bridge dilation) các mẩu vách bị đứt đoạn về lại khối vách chính.
+          </p>
+          <div class="step-code-preview">reconnect_fractured_walls()</div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="pipeline-step-card">
+          <div class="step-num-badge">6</div>
+          <div class="step-header">
+            <h3 class="step-title">Tách Vách Trái / Phải</h3>
+          </div>
+          <p class="step-desc">
+            Tìm contour và phân nhóm vách trái (X ≤ 20% W) và vách phải (X ≥ 80% W). Gộp các mảng vách phân tách thẳng đứng (≤ 120 px) thành 2 mask độc lập.
+          </p>
+          <div class="step-code-preview">merge_nearby_masks()</div>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="pipeline-step-card">
+          <div class="step-num-badge">7</div>
+          <div class="step-header">
+            <h3 class="step-title">Thuật Toán 3 Lớp Bắt 4 Điểm</h3>
+          </div>
+          <p class="step-desc">
+            Phối hợp 3 lớp không gian: Tìm hạt giống bằng điểm hướng + cửa sổ mật độ 30×30, dò lân cận 360° kèm khóa trục X, và cân bằng đồng phẳng trục Y khóa góc lệch ≤ 35°.
+          </p>
+          <div class="step-code-preview">get_best_corner() & align_y()</div>
+        </div>
+
+        <!-- Step 8 -->
+        <div class="pipeline-step-card">
+          <div class="step-num-badge">8</div>
+          <div class="step-header">
+            <h3 class="step-title">Xuất Ảnh _S & Báo Cáo Excel</h3>
+          </div>
+          <p class="step-desc">
+            Vẽ đường đo 2 đầu mũi tên viền đen và thông số lên ảnh <code>_S.bmp</code>. Tự động điền dữ liệu Top, Bot, công thức Excel <code>=H/G*100</code> vào sheet tương ứng của mẫu báo cáo.
+          </p>
+          <div class="step-code-preview">export_excel_report()</div>
+        </div>
+
+      </div>
+
+      <!-- Parallel Execution Note -->
+      <div class="sticky-note blue" style="text-align: center; max-width: 900px; margin: 0 auto;">
+        <strong>Kiến trúc Đa luồng:</strong> Toàn bộ quá trình quét ảnh và tính toán trên từng bức ảnh đơn lẻ được thực thi song song bằng <code>concurrent.futures.ThreadPoolExecutor(max_workers=32)</code>, xử lý một thư mục gồm 12 ảnh vi cấu trúc chỉ trong chưa đầy 1 giây.
+      </div>
+    </section>
+
+    <!-- SECTION 4: 3-LAYER GEOMETRIC CORNER ALGORITHM -->
+    <section id="algorithm" class="algorithm-section">
+      <div class="section-title-wrap">
+        <div class="section-label">THE CORE COMPUTER VISION ENGINE</div>
+        <h2 class="section-title">Thuật Toán 3 Lớp Bắt 4 Điểm Pixel Góc Mép</h2>
+        <p class="section-desc">
+          Lý do thuật toán không bao giờ bắt trượt, không bị trượt vào sườn dốc và không bắt nhầm hạt bụi.
+        </p>
+      </div>
+
+      <div class="layers-stacked-container">
+        
+        <!-- Layer 1 Card -->
+        <div class="layer-card">
+          <div class="layer-badge-box">
+            <div class="layer-number">01</div>
+            <div class="layer-title-badge">LỚP 1: HẠT GIỐNG ĐỊNH HƯỚNG</div>
+            <div style="font-size: 0.85rem; color: var(--ink-muted); margin-top: 6px;">Directional Scoring & Density Window</div>
+          </div>
+
+          <div class="layer-content-box">
+            <h3>Tìm Hạt Giống (Seed Point) Bằng Điểm Số Định Hướng & Mật Độ Khối</h3>
+            <p>
+              Thay vì lấy tọa độ Min/Max đơn thuần (dễ dính pixel nhiễu), thuật toán giới hạn dải tìm kiếm 120 px và áp dụng hàm chấm điểm định hướng với trọng số ngang Wx = 1.0 và đứng Wy = 1.5:
+            </p>
+
+            <div class="formula-sketch-box">
+              <div>Top-Left (P1): &nbsp; Score_TL = Wx · X - Wy · Y &nbsp; (Ưu tiên vào trong, lên trên)</div>
+              <div>Top-Right (P2): Score_TR = -(Wx · X + Wy · Y) (Ưu tiên vào trong, lên trên)</div>
+              <div>Bot-Left (P3): &nbsp; Score_BL = Wx · X + Wy · Y &nbsp; (Ưu tiên vào trong, xuống dưới)</div>
+              <div>Bot-Right (P4): Score_BR = -(Wx · X - Wy · Y) (Ưu tiên vào trong, xuống dưới)</div>
+            </div>
+
+            <p style="font-size: 0.95rem; color: var(--ink-secondary);">
+              <strong>Bộ lọc cửa sổ mật độ 30×30 px (Density Check):</strong> Quét ứng viên giảm dần theo điểm số. Điểm đầu tiên có tỷ lệ vật chất đặc ≥ 20% trong ô vuông 30×30 được chọn làm hạt giống seed_pt = (x_seed, y_seed). Điều này loại bỏ 100% các chấm bụi trôi nổi li ti.
+            </p>
+          </div>
+        </div>
+
+        <!-- Layer 2 Card -->
+        <div class="layer-card">
+          <div class="layer-badge-box">
+            <div class="layer-number">02</div>
+            <div class="layer-title-badge">LỚP 2: DÒ 360° & KHÓA TRỤC X</div>
+            <div style="font-size: 0.85rem; color: var(--ink-muted); margin-top: 6px;">Local 360 Search & X-Lock</div>
+          </div>
+
+          <div class="layer-content-box">
+            <h3>Hội Tụ Cực Trị Mép Góc & Ngăn Trượt Sườn Rãnh</h3>
+            <p>
+              Từ điểm hạt giống, thuật toán tiến hành lặp tối đa 30 bước trong bán kính 15 px (q_size = 15) để hội tụ về đúng pixel mép góc gờ nhô ra ngoài cùng nhất:
+            </p>
+
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 12px 0;">
+              <li>
+                • <strong>Kiểm tra 8-láng giềng (has_enough_neighbors):</strong> Trong ô vuông 3×3 quanh pixel ứng viên, bắt buộc phải có ít nhất ≥ 3 pixel vật chất bao quanh. Quy tắc này loại bỏ hoàn toàn các pixel gai nhọn do nhị phân hóa.
+              </li>
+              <li>
+                • <strong>Cơ chế Khóa trục X (x_lock_tolerance = 25 px):</strong> Ràng buộc |X_mới - X_seed| ≤ 25 px. Giữ chặt điểm đo tại mỏm gờ, ngăn không cho thuật toán bị tuột sâu xuống sườn dốc khi vách có độ dốc xiên lớn.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Layer 3 Card -->
+        <div class="layer-card">
+          <div class="layer-badge-box">
+            <div class="layer-number">03</div>
+            <div class="layer-title-badge">LỚP 3: CÂN BẰNG ĐỒNG PHẲNG Y</div>
+            <div style="font-size: 0.85rem; color: var(--ink-muted); margin-top: 6px;">Co-planar Y Alignment & 35° Clamp</div>
+          </div>
+
+          <div class="layer-content-box">
+            <h3>Khóa Góc Nghiêng Tối Đa 35° & Chống Đo Chéo Xuống Đáy</h3>
+            <p>
+              Trong tiêu chuẩn đo đạc bán dẫn, mặt trên (Top) và đáy (Bottom) luôn có tính đồng phẳng cao độ:
+            </p>
+
+            <div class="formula-sketch-box">
+              <div>Góc nghiêng đường đo: θ = arctan(|Y_right - Y_left| / |X_right - X_left|) × (180 / π)</div>
+              <div>Ràng buộc tối đa: θ ≤ 35.0° &nbsp;và&nbsp; ΔY ≤ 60 px</div>
+            </div>
+
+            <p style="font-size: 0.95rem; color: var(--ink-secondary);">
+              <strong>Cơ chế Force gióng ngang (find_x_at_y):</strong> Nếu θ > 35°, chứng tỏ một bên điểm đã bị nhảy tuột xuống đáy do khuyết tật vật liệu. Thuật toán tự động lấy điểm có cao độ Y nhỏ hơn (nằm trên chuẩn) làm mốc, gióng ngang qua mask đối diện để kéo điểm lệch về đúng mặt cắt chuẩn ngang.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 5: RELIABILITY & DEFENSE MATRIX (RULE-BASED CV VS AI) -->
+    <section id="reliability" style="padding: 40px 0;">
+      <div class="section-title-wrap">
+        <div class="section-label">ENGINEERING INTEGRITY & MSA</div>
+        <h2 class="section-title">Tại Sao Rule-Based CV Vượt Trội So Với AI Trong Bài Toán Này?</h2>
+        <p class="section-desc">
+          Bảng phân tích rủi ro & cơ chế bảo vệ cơ học đáp ứng tiêu chuẩn thẩm định hệ thống đo (Measurement System Analysis).
+        </p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="sketch-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Thách thức trong đo SEM</th>
+              <th style="width: 40%;">Giải pháp cơ học của phần mềm</th>
+              <th style="width: 35%;">Kết quả đạt được</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Sai lệch độ phóng đại (Scale Drift)</strong></td>
+              <td>Đọc trực tiếp thẻ <code>PixelSize</code> từ file metadata <code>.txt</code> phần cứng của máy SEM cho từng ảnh.</td>
+              <td><span class="sketch-badge green">Chính xác 100% tỷ lệ nm/px</span>, không phụ thuộc vào zoom người dùng.</td>
+            </tr>
+            <tr>
+              <td><strong>Đo nhầm xuống lớp chân đế (Substrate)</strong></td>
+              <td>Hàm <code>filter_bottom_connected_pixels</code> + Quy tắc triệt tiêu 100% pixel đen ở Y ≥ 0.75H.</td>
+              <td><span class="sketch-badge green">Khóa 100% vùng đáy</span>, không bao giờ bắt nhầm vào chân đế hay banner chữ.</td>
+            </tr>
+            <tr>
+              <td><strong>Đường đo bị xiên chéo xuống dưới</strong></td>
+              <td>Khóa góc nghiêng tối đa 35° (<code>MAX_ANGLE_DEG = 35.0</code>) kết hợp gióng ngang theo điểm chuẩn trên.</td>
+              <td><span class="sketch-badge green">Đường đo luôn song song</span> với bề mặt cắt ngang tiêu chuẩn.</td>
+            </tr>
+            <tr>
+              <td><strong>Bụi bẩn li ti trôi nổi giữa rãnh</strong></td>
+              <td>Bộ lọc đệ quy liên thông + Cửa sổ mật độ 30×30 yêu cầu độ đặc vật chất ≥ 20%.</td>
+              <td><span class="sketch-badge green">Lọc sạch 100% vết bẩn</span>, không nhầm hạt bụi thành mép vách.</td>
+            </tr>
+            <tr>
+              <td><strong>Đầu chóp rãnh bị vỡ hạt / đứt đoạn</strong></td>
+              <td>Quét bán kính 12 px kết nối các mẩu đứt đoạn về lại vách chính (bridge dilation).</td>
+              <td><span class="sketch-badge green">Bắt chính xác mỏm ngoài cùng</span>, không bị hụt kích thước rãnh.</td>
+            </tr>
+            <tr>
+              <td><strong>Chi phí phần cứng & Độ tin cậy AI</strong></td>
+              <td>Thị giác máy tính thuần túy: Không dùng mạng Neural, không có hiện tượng ảo giác (hallucination), chạy tức thì trên CPU.</td>
+              <td><span class="sketch-badge green">Chi phí đầu tư 0đ</span>, độ lặp lại (Repeatability) đạt 100%.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- LIGHTBOX IMAGE MODAL -->
+  <div id="imageModal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="modalTitle" class="modal-title">Xem chi tiết ảnh</span>
+        <button id="modalClose" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <img id="modalImage" src="" alt="Chi tiết ảnh phóng to">
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="sketch-footer">
+    <div class="container footer-content">
+      <div>
+        <strong>Auto Measurement For SEM EDX</strong> &copy; 2026
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript Engine -->
+  <script src="script.js"></script>
+</body>
+</html>
